@@ -1,8 +1,8 @@
-
 package vista;
-
 import javax.swing.JOptionPane;
 import ejemplohiebernate.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -46,8 +46,8 @@ public class PersonaGUI extends javax.swing.JInternalFrame {
         btoNuevo = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        cmpNombre1 = new javax.swing.JTextField();
-        cmpNombre2 = new javax.swing.JTextField();
+        cmpDireccion = new javax.swing.JTextField();
+        cmpTelefono = new javax.swing.JTextField();
 
         setClosable(true);
         setMinimumSize(new java.awt.Dimension(300, 400));
@@ -90,7 +90,7 @@ public class PersonaGUI extends javax.swing.JInternalFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(cmpNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmpDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(3, 3, 3)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -99,7 +99,7 @@ public class PersonaGUI extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmpNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cmpTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -116,11 +116,11 @@ public class PersonaGUI extends javax.swing.JInternalFrame {
                     .addComponent(cmpNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmpNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmpDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmpNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmpTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(190, Short.MAX_VALUE))
         );
@@ -135,7 +135,20 @@ public class PersonaGUI extends javax.swing.JInternalFrame {
         cmpNombre.setText("");
     }
     private void btoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btoNuevoActionPerformed
-        // TODO add your handling code here:
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        System.out.println("Se conecto");
+        Transaction transaction = session.beginTransaction();
+        System.out.println("Inicio la transaccion");
+        Persona p = new Persona();
+        p.setClave(cmpClave.getText());
+        p.setNombre(cmpNombre.getText());
+        p.setDireccion(cmpDireccion.getText());
+        p.setTelefono(cmpTelefono.getText());
+        session.save(p);
+        transaction.commit();
+        
+        System.out.println("Se guardo\nFin transaccion");
+        session.close();
         limpiar();
     }//GEN-LAST:event_btoNuevoActionPerformed
 
@@ -143,9 +156,9 @@ public class PersonaGUI extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btoNuevo;
     private javax.swing.JTextField cmpClave;
+    private javax.swing.JTextField cmpDireccion;
     private javax.swing.JTextField cmpNombre;
-    private javax.swing.JTextField cmpNombre1;
-    private javax.swing.JTextField cmpNombre2;
+    private javax.swing.JTextField cmpTelefono;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

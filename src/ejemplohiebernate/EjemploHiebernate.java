@@ -18,7 +18,6 @@ public class EjemploHiebernate {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
         Session session = HibernateUtil.getSessionFactory().openSession();
         System.out.println("Se conecto");
         Transaction transaction = session.beginTransaction();
@@ -30,7 +29,6 @@ public class EjemploHiebernate {
         p.setDireccion("Av 1");
         p.setTelefono("5555");
         session.save(p);
-        
         transaction.commit();
         
         System.out.println("Fin transaccion");
